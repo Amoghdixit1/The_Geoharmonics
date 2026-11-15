@@ -169,3 +169,16 @@ test("descriptions are generated for every record without errors", () => {
     assert.ok(!/NaN|undefined/.test(p.spoken), p.spoken);
   }
 });
+
+test("Lightning dates are anchored to the seasons: northern-heavy frames fall in boreal summer", () => {
+  const t = TRACKS.find((x) => x.id === "lightning");
+  for (const sec of [15.5, 28, 40, 51, 61, 62, 75, 94]) {
+    const m = t.date(sec).date.getUTCMonth();
+    assert.ok(m >= 4 && m <= 8, `${sec}s -> month ${m + 1}`);
+  }
+  for (const sec of [22, 34, 46, 57, 69, 83]) {
+    const m = t.date(sec).date.getUTCMonth();
+    assert.ok(m >= 10 || m <= 2, `${sec}s -> month ${m + 1} (expected austral summer)`);
+  }
+  assert.equal(t.date(2).label, "Before data");
+});

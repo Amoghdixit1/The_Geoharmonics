@@ -100,11 +100,11 @@ export class AudioEngine {
   }
 
   // ---- look-ahead clock ---------------------------------------------------
-  startClock(bpm, stepsPerBeat, onStep) {
+  startClock(bpm, stepsPerBeat, onStep, startStep = 0) {
     this.stopClock();
     const stepDur = 60 / bpm / stepsPerBeat;
-    let next = this.now + 0.08;
-    let step = 0;
+    let next = this.now + 0.05;
+    let step = startStep;
     const tick = () => {
       while (next < this.now + 0.14) {
         try { onStep(step, next, stepDur); } catch (e) { console.error(e); }

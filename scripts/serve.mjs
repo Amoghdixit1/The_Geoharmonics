@@ -14,7 +14,7 @@ const TYPES = {
   ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml", ".md": "text/markdown; charset=utf-8", ".ico": "image/x-icon",
 };
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   let rel = decodeURIComponent(new URL(req.url, "http://x").pathname);
   if (rel.endsWith("/")) rel += "index.html";
   const file = path.join(ROOT, rel);
@@ -34,4 +34,18 @@ http.createServer((req, res) => {
       if (req.method === "HEAD") res.end(); else fs.createReadStream(file).pipe(res);
     }
   });
-}).listen(PORT, () => console.log(`Earth Jukebox running at http://localhost:${PORT}`));
+});
+
+// If the port is taken (e.g. another copy is already running), try the next one.
+let port = PORT;
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE" && port < PORT + 10) {
+    console.log(`Port ${port} is busy, trying ${port + 1}...`);
+    server.listen(++port);
+  } else {
+    console.error(err.message);
+    process.exit(1);
+  }
+});
+server.on("listening", () => console.log(`\n  Earth Jukebox running at http://localhost:${port}\n  Press Ctrl+C to stop.\n`));
+server.listen(port);

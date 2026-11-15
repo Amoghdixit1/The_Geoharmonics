@@ -206,7 +206,7 @@ function renderMapping(track) {
 function renderSource(track) {
   const s = track.source;
   els.source.innerHTML = s.url
-    ? `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a> (NASA SVS ${s.svs}). ${s.credit}${track.dateApprox ? " Dates shown are approximate: they are spread evenly across the video's time span." : ""}`
+    ? `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a> (NASA SVS ${s.svs}). ${s.credit}${track.dateApprox ? " Dates shown are approximate (estimated from the video's position, not read from the frame)." : ""}`
     : s.credit;
 }
 
@@ -284,7 +284,7 @@ function dateInfo() {
 // ---------------------------------------------------------------------------
 // Playback
 // ---------------------------------------------------------------------------
-async function play() {
+async function play({ startStep = 0 } = {}) {
   if (!state.track) return;
   await engine.init();
   engine.setVolume(state.muted ? 0 : Number(els.volume.value));
@@ -301,7 +301,7 @@ async function play() {
   els.play.textContent = "Pause";
   els.play.setAttribute("aria-label", "Pause");
   const t = state.track;
-  engine.startClock(t.bpm, t.stepsPerBeat, onStep);
+  engine.startClock(t.bpm, t.stepsPerBeat, onStep, startStep);
   state.lastNarration = performance.now() - 9000; // first narration after ~6 s
 }
 
@@ -724,9 +724,96 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ---------------------------------------------------------------------------
+// Demo mode (?demo): a scripted 30-second showcase for the submission video.
+// Optional: ?demo&team=Your%20Team&url=github.com/you/earth-jukebox
+// ---------------------------------------------------------------------------
+const DEMO = new URLSearchParams(location.search).has("demo");
+
+async function runDemo() {
+  const params = new URLSearchParams(location.search);
+  document.body.classList.add("demo");
+  const sub = document.createElement("div");
+  sub.className = "demo-sub";
+  const shade = document.createElement("div");
+  shade.className = "demo-shade";
+  els.stage.append(shade, sub);
+  const t0 = performance.now();
+  const at = (sec) => wait(Math.max(0, t0 + sec * 1000 - performance.now()));
+  const say = (text) => { sub.textContent = text; sub.classList.remove("show"); void sub.offsetWidth; sub.classList.add("show"); };
+  const seekTo = (sec) => new Promise((r) => { els.video.addEventListener("seeked", r, { once: true }); els.video.currentTime = sec; });
+
+  // Warm the browser cache for the montage so its cuts switch instantly.
+  const MONTAGE = [["aerosols", 8], ["co2", 2], ["nightlights", 28], ["gedi", 20]];
+  for (const [id] of MONTAGE) fetch(`media/${id}/video.mp4`).catch(() => {});
+
+  // 0–4 s: black screen, lightning audio only
+  await selectTrack("lightning");
+  await seekTo(61);
+  shade.classList.add("on");
+  say("Close your eyes. This is lightning, heard from space.");
+  await play({ startStep: 4 });
+
+  // 4–9 s: reveal
+  await at(4);
+  shade.classList.remove("on");
+  say("Earth Jukebox turns NASA Earth visualizations into live music — played from their pixels.");
+
+  // 9–15 s: ocean temperature, data → pitch
+  await at(9);
+  await selectTrack("sst");
+  await seekTo(20);
+  await play({ startStep: 4 });
+  say("Each map's own colour bar turns colours back into data: warmer water, higher notes.");
+
+  // 15–21 s: explore by touch
+  await at(15);
+  say("Blind and low-vision users can explore any map by touch or keyboard.");
+  await enterExplore();
+  const path = [[0.08, 0.5], [0.3, 0.48], [0.55, 0.47], [0.78, 0.45], [0.9, 0.46]];
+  for (let i = 0; i < 34; i++) {
+    const p = (i / 33) * (path.length - 1), k = Math.min(path.length - 2, Math.floor(p)), u = p - k;
+    state.cursor.fx = path[k][0] + (path[k + 1][0] - path[k][0]) * u;
+    state.cursor.fy = path[k][1] + (path[k + 1][1] - path[k][1]) * u;
+    updateProbe(false);
+    await wait(95);
+  }
+  const s = sampleAt(state.f, state.cursor.fx, state.cursor.fy, 2);
+  const txt = probeText(state.track, s, state.cursor.fx, state.cursor.fy, state.f);
+  els.caption.textContent = txt.short;
+  speak(txt.spoken.split(",").slice(0, 2).join(","), { force: true });
+
+  // 21–28 s: montage — four records, each held ~1.75 s with sound from the first beat.
+  await at(21);
+  exitExplore();
+  window.speechSynthesis?.cancel();
+  say("Seven NASA datasets. One planet. Listen.");
+  for (let i = 0; i < MONTAGE.length; i++) {
+    const [id, sec] = MONTAGE[i];
+    await selectTrack(id);
+    await seekTo(sec);
+    // Start the scanner over the Americas/Atlantic, where every record has data.
+    await play({ startStep: 5 });
+    await at(21 + (i + 1) * 1.75);
+  }
+
+  // 28–30 s: end card
+  await at(28);
+  stopPlayback();
+  const end = document.createElement("div");
+  end.className = "demo-end";
+  end.innerHTML = `<h2>Earth Jukebox</h2><p>Hear our changing planet.</p>` +
+    (params.get("team") ? `<p class="team">${params.get("team").replace(/[<>&]/g, "")}</p>` : "") +
+    (params.get("url") ? `<p class="url">${params.get("url").replace(/[<>&]/g, "")}</p>` : "") +
+    `<p class="credit">Data: NASA Scientific Visualization Studio · NASA Space Apps 2026</p>`;
+  els.stage.append(end);
+  sub.textContent = "";
+}
+
+// ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
 async function boot() {
+  if (DEMO) els.start.textContent = "Start 30-second demo";
   renderTrackList();
   const colormaps = await fetch("media/colormaps.json").then((r) => {
     if (!r.ok) throw new Error("media/colormaps.json missing — run python scripts/build_media.py");
@@ -742,6 +829,7 @@ els.start.addEventListener("click", async () => {
   await engine.init();
   els.gate.hidden = true;
   els.main.hidden = false;
+  if (DEMO) { runDemo(); return; }
   els.play.focus();
   announce(`Earth Jukebox ready. ${state.track?.title || ""}. Press Space to play, S for a guided story, or question mark for shortcuts.`);
 });

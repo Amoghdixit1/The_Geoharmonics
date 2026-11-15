@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,000
+Close your eyes. This is lightning, heard from space.
+
+2
+00:00:04,000 --> 00:00:10,000
+Earth Jukebox turns NASA Earth visualizations into live music — played from their pixels.
+
+3
+00:00:10,000 --> 00:00:17,000
+Each map's own colour bar turns colours back into data: warmer water, higher notes.
+
+4
+00:00:17,000 --> 00:00:24,000
+Blind and low-vision users can explore any map by touch or keyboard.
+
+5
+00:00:24,000 --> 00:00:29,000
+Seven NASA datasets. One planet. Listen.
+
+6
+00:00:29,000 --> 00:00:31,000
+Earth Jukebox — data: NASA Scientific Visualization Studio.

@@ -134,7 +134,7 @@ export class Pad {
     this.lfoGain = ctx.createGain(); this.lfoGain.gain.value = cutoff * 0.25;
     this.lfo.connect(this.lfoGain).connect(this.lp.frequency);
     this.lfo.start();
-    this.out.gain.setTargetAtTime(level, ctx.currentTime, 1.2);
+    this.out.gain.setTargetAtTime(level, ctx.currentTime, 0.5);
   }
 
   setChord(midis, time, glide = 0.6) {

@@ -36,7 +36,7 @@ Requirements: Node 18+ to serve the app, and Python 3.10+ only if you want to re
 
 ```bash
 npm start            # http://localhost:8080
-npm test             # 22 tests: analysis on real NASA frames + every composer
+npm test             # 23 tests: analysis on real NASA frames + every composer
 ```
 
 The processed media (`media/`) is committed, so the app runs straight away. To rebuild it from NASA's servers (about 1 GB is streamed):
@@ -83,7 +83,7 @@ js/describe.js   the same numbers → sentences for captions and screen readers
 ## Honest limitations
 
 - Values are read from rendered colours, not the raw science data. Compression and anti-aliasing add small errors, and on 3D globes (GEDI, Perpetual Ocean 2) lighting can shift values.
-- Where a video has no on-screen date, dates are spread evenly across its time span and labelled "about".
+- Where a video has no on-screen date, dates are estimated and labelled "about". Most are spread evenly across the video. For Storm Drums the pace is uneven, so dates are anchored to the data: the analyser found the Northern-Hemisphere lightning share peaking every boreal summer, and those peaks are pinned to mid-July of each year.
 - Below ≈425 ppm the CO₂ visualization is transparent, and below ≈5 °C Perpetual Ocean's navy matches the sea floor, so those ranges are not sonified. The interface says so.
 - Place names come from approximate bounding boxes and are phrased as "near".
 

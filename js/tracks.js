@@ -15,6 +15,23 @@ function linearDate(start, end) {
   };
 }
 
+/**
+ * Piecewise-linear date mapping through [videoSeconds, isoDate] anchors.
+ * Used where the video's pace is uneven and the dates were calibrated from
+ * the data itself (see Storm Drums).
+ */
+function anchoredDate(anchors) {
+  const pts = anchors.map(([s, iso]) => [s, Date.parse(iso)]);
+  return (t) => {
+    if (t < pts[0][0]) return { label: "Before data", spoken: "the opening seconds, before the data starts" };
+    let k = 0;
+    while (k < pts.length - 2 && t > pts[k + 1][0]) k++;
+    const [s0, d0] = pts[k], [s1, d1] = pts[k + 1];
+    const d = new Date(d0 + (d1 - d0) * Math.max(0, Math.min(1, (t - s0) / (s1 - s0))));
+    return { label: `${MONTHS[d.getUTCMonth()].slice(0, 3)} ${d.getUTCFullYear()}`, spoken: `about ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`, date: d };
+  };
+}
+
 // Legend helpers -------------------------------------------------------------
 const scaleLegend = (lowSay, highSay, root, scale, octaves, layer) => [
   { say: `Low: ${lowSay}.`, play: (e, t) => { for (let k = 0; k < 3; k++) pluck(e, e.layer(layer), t + k * 0.32, { midi: quantize(0.02 * k, root, scale, octaves), vel: 0.6, dur: 1 }); } },
@@ -66,9 +83,16 @@ export const TRACKS = [
     unit: "",
     accent: "#ffd84a",
     source: { name: "Lightning Events Detected from the International Space Station (ISS) 2017-2023", svs: 5011, url: "https://svs.gsfc.nasa.gov/5011", credit: "NASA/Goddard Space Flight Center Scientific Visualization Studio; Lightning Imaging Sensor (LIS) on the ISS, quality-controlled science data." },
-    date: linearDate("2017-01-01T00:00Z", "2023-07-31T00:00Z"),
+    // The video's pace is uneven, so dates are anchored to the data: the share
+    // of lightning in the Northern Hemisphere peaks every boreal summer, at
+    // these video times (measured with the app's own analyser, 1 frame/s).
+    date: anchoredDate([
+      [5, "2017-03-01T00:00Z"], [15.5, "2017-07-15T00:00Z"], [28, "2018-07-15T00:00Z"], [40, "2019-07-15T00:00Z"],
+      [51, "2020-07-15T00:00Z"], [62, "2021-07-15T00:00Z"], [75, "2022-07-15T00:00Z"], [94, "2023-07-15T00:00Z"],
+      [98, "2023-07-31T00:00Z"],
+    ]),
     dateApprox: true,
-    summary: "Lightning events seen by the Lightning Imaging Sensor on the International Space Station, January 2017 to July 2023, shown with a 10-day roving window. The ISS orbit covers roughly 55° north to 55° south.",
+    summary: "Lightning events seen by the Lightning Imaging Sensor on the International Space Station, March 2017 to July 2023, shown with a 10-day roving window. The ISS orbit covers roughly 55° north to 55° south.",
     story: [
       "Storm Drums. These are lightning flashes detected from the International Space Station between 2017 and 2023.",
       "Every new flash on the map becomes a drum hit. Left and right tell you the longitude. Deep, booming drums are flashes near the equator; tighter, higher drums are flashes towards the poles.",
