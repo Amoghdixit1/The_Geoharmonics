@@ -12,7 +12,7 @@ const NICE = { blackCarbon: "smoke and black carbon", dust: "dust", seaSalt: "se
 export function describe(track, f, info) {
   if (!f) return "";
   const s = f.stats;
-  const when = info?.spoken ? `At ${info.spoken}: ` : "";
+  const when = info?.spoken ? `${info.spoken[0].toUpperCase()}${info.spoken.slice(1)}: ` : "";
   switch (track.analyzer) {
     case "sst": {
       if (!s.maxAt) return `${when}no ocean detected in this frame.`;

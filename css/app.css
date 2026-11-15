@@ -193,3 +193,10 @@ body.demo .stage { border: 0; }
 .demo-end p { margin: 6px 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.4rem); }
 .demo-end .team, .demo-end .url { color: var(--text); font-weight: 700; }
 .demo-end .credit { font-size: 0.9rem; margin-top: 18px; }
+
+/* Homepage: Start + Watch demo buttons */
+.gate-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 8px; }
+button.secondary { background: transparent; border: 2px solid var(--accent); color: var(--text); font-weight: 700; }
+button.secondary:hover { background: rgba(255, 179, 71, 0.12); }
+#btn-watch[hidden], #watch-hint[hidden] { display: none; }
+.demo-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 22px; }

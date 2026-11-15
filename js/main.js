@@ -807,13 +807,39 @@ async function runDemo() {
     `<p class="credit">Data: NASA Scientific Visualization Studio · NASA Space Apps 2026</p>`;
   els.stage.append(end);
   sub.textContent = "";
+  // When launched from the homepage button (not the ?demo recording URL),
+  // offer a way back into the full app.
+  if (!DEMO) {
+    const actions = document.createElement("div");
+    actions.className = "demo-actions";
+    actions.innerHTML = '<button class="primary big" data-act="explore">Explore it yourself</button><button class="big secondary" data-act="again">↺ Watch again</button>';
+    end.append(actions);
+    actions.querySelector('[data-act="explore"]').addEventListener("click", () => endDemo());
+    actions.querySelector('[data-act="again"]').addEventListener("click", () => { endDemo(false); runDemo(); });
+    actions.querySelector("button").focus();
+    announce("Demo finished. Choose Explore it yourself, or Watch again.");
+  }
+}
+
+/** Remove demo overlays and return to the normal player. */
+async function endDemo(restoreTrack = true) {
+  stopPlayback();
+  exitExplore();
+  window.speechSynthesis?.cancel();
+  els.stage.querySelectorAll(".demo-sub, .demo-shade, .demo-end").forEach((n) => n.remove());
+  document.body.classList.remove("demo");
+  if (restoreTrack) {
+    await selectTrack("sst");
+    els.play.focus();
+    announce("Earth Jukebox ready. Press Space to play, S for a guided story, or question mark for shortcuts.");
+  }
 }
 
 // ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
 async function boot() {
-  if (DEMO) els.start.textContent = "Start 30-second demo";
+  if (DEMO) { els.start.textContent = "Start 30-second demo"; $("btn-watch").hidden = true; $("watch-hint").hidden = true; }
   renderTrackList();
   const colormaps = await fetch("media/colormaps.json").then((r) => {
     if (!r.ok) throw new Error("media/colormaps.json missing — run python scripts/build_media.py");
@@ -824,6 +850,13 @@ async function boot() {
   await selectTrack(trackById(fromHash) && fromHash !== "image" ? fromHash : "sst");
   requestAnimationFrame(draw);
 }
+
+$("btn-watch").addEventListener("click", async () => {
+  await engine.init();
+  els.gate.hidden = true;
+  els.main.hidden = false;
+  runDemo();
+});
 
 els.start.addEventListener("click", async () => {
   await engine.init();
