@@ -24,7 +24,8 @@
 | Source code (`js/`, `css/`, `index.html`, `scripts/`, `tests/`) | AI-assisted | This file; a header line in each source file; `aiDisclosure` in `package.json`; `<meta name="ai-disclosure">` in `index.html` |
 | Derived data (`media/colormaps.json`, `tests/fixtures/`, re-encoded `media/*/video.mp4`) | Produced by AI-assisted scripts from NASA SVS originals | This file; `_provenance` field in `colormaps.json` |
 | Audio (live soundtrack, and recordings made with the Record button) | Synthesised in real time by AI-assisted code from NASA data. No generative-AI audio model is used. | This file; recording file names |
-| Demo video | **Recorded and produced by our team** (a screen recording of the app); not AI-generated. Only the on-screen subtitle wording was drafted with Claude. | This file; video description |
+| Demo page (the app's 30-second demo mode: its scripted sequence and subtitle text) | Part of the app code, written with Claude | This file; header line in `js/main.js` |
+| Demo video | made by our team from the demo page made with ai"s assistance ; the video itself is not AI-generated | This file; video description |
 | Text (descriptions, narration, docs) | Drafted with AI, reviewed by our team | This file |
 | GeoHarmonics logo and banner (`geoharmonics_logo_waves`, `geoharmonics_banner`) | **AI-generated images** | Visible "AI-generated image" watermark on the labelled copies (`*-ai-labelled.jpg/.svg`); image metadata (EXIF description / SVG `<desc>`); this file |
 | In-app logo and browser-tab icon (the circle-and-wave icon in `index.html`) | Drawn in SVG code written with Claude | This file; "How it works" box |
