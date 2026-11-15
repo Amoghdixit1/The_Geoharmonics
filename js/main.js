@@ -838,10 +838,37 @@ async function endDemo(restoreTrack = true) {
 // ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
+const APP_VERSION = document.querySelector('meta[name="app-version"]')?.content || "dev";
+
+/**
+ * Static hosts (GitHub Pages) let browsers reuse index.html for ~10 minutes,
+ * so a returning visitor can briefly get an old version. version.json is
+ * fetched past every cache; if it is newer than this page, reload once.
+ */
+async function reloadIfStale() {
+  if (APP_VERSION === "dev" || location.protocol === "file:") return false;
+  try {
+    const r = await fetch(`version.json?t=${Date.now()}`, { cache: "no-store" });
+    if (!r.ok) return false;
+    const { version } = await r.json();
+    if (version && version !== APP_VERSION) {
+      let tried = null;
+      try { tried = sessionStorage.getItem("ej-reloaded-for"); } catch { /* storage unavailable */ }
+      if (tried !== version) {
+        try { sessionStorage.setItem("ej-reloaded-for", version); } catch { /* ignore */ }
+        location.reload();
+        return true;
+      }
+    }
+  } catch { /* offline or blocked: keep running the current version */ }
+  return false;
+}
+
 async function boot() {
   if (DEMO) { els.start.textContent = "Start 30-second demo"; $("btn-watch").hidden = true; $("watch-hint").hidden = true; }
   renderTrackList();
-  const colormaps = await fetch("media/colormaps.json").then((r) => {
+  if (await reloadIfStale()) return;
+  const colormaps = await fetch(`media/colormaps.json?v=${APP_VERSION}`).then((r) => {
     if (!r.ok) throw new Error("media/colormaps.json missing — run python scripts/build_media.py");
     return r.json();
   });

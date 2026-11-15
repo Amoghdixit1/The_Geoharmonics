@@ -48,6 +48,17 @@ python scripts/build_media.py          # or: python scripts/build_media.py sst c
 
 Use the included server, not `file://` or `python -m http.server`. Video seeking needs HTTP Range requests, and ES modules need the right MIME type.
 
+## Deploy (GitHub Pages)
+
+GitHub Pages lets browsers cache files for about 10 minutes. Before every push, stamp a new version so visitors always get the latest build:
+
+```bash
+npm run bump        # versions CSS/JS URLs + version.json
+git add -A && git commit -m "..." && git push
+```
+
+The page also checks `version.json` (bypassing the cache) on load and reloads once if it is out of date.
+
 ## How it works
 
 ```
