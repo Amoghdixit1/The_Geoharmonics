@@ -237,8 +237,12 @@ button.secondary:hover { background: rgba(255, 179, 71, 0.12); }
 #btn-watch[hidden], #watch-hint[hidden] { display: none; }
 .demo-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 22px; }
 
-/* Homepage GitHub link */
-.repo-link { margin-top: 18px; }
-.repo-link a { display: inline-flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none;
-  border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; min-height: 44px; font-weight: 600; }
-.repo-link a:hover { border-color: var(--focus); color: var(--focus); }
+/* Homepage GitHub link: solid, high-contrast button */
+.repo-link { margin: 4px 0 6px; }
+.repo-link a { display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  background: #ffffff; color: #0d1117; border: 2px solid #ffffff; border-radius: 12px;
+  padding: 11px 22px; min-height: 48px; font-size: 1.05rem; font-weight: 700;
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.12); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.repo-link a:hover { background: #f0f3f6; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(255, 255, 255, 0.2); }
+.repo-link a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+body.hc .repo-link a { box-shadow: none; }
