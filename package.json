@@ -1,0 +1,14 @@
+{
+  "name": "earth-jukebox",
+  "version": "1.0.0",
+  "description": "Live, data-driven sonification of NASA Earth Information Center visualizations.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs 8080",
+    "test": "node --test tests/*.test.mjs",
+    "build:media": "python scripts/build_media.py"
+  },
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}

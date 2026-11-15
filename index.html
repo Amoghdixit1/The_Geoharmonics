@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Earth Jukebox</title>
+  <meta name="description" content="Earth Jukebox turns NASA Earth Information Center visualizations into live, data-driven music you can explore by ear, touch or keyboard.">
+  <meta name="theme-color" content="#05070d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%230b1630' stroke='%2366d1ff' stroke-width='4'/%3E%3Cpath d='M10 36c8-10 14 6 22-4s14 6 22-4' fill='none' stroke='%23ffb347' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to player</a>
+
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="3"/><path d="M8 36c8-10 14 6 24-4s14 6 24-4" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/></svg>
+      <div>
+        <h1>Earth Jukebox</h1>
+        <p class="tagline">Hear our changing planet — NASA Earth visualizations, played as live music from their pixels.</p>
+      </div>
+    </div>
+    <nav class="top-actions" aria-label="Settings and help">
+      <button id="btn-a11y" class="ghost" aria-haspopup="dialog" aria-controls="dlg-settings">Accessibility</button>
+      <button id="btn-help" class="ghost" aria-haspopup="dialog" aria-controls="dlg-help">Keyboard shortcuts <kbd>?</kbd></button>
+      <button id="btn-about" class="ghost" aria-haspopup="dialog" aria-controls="dlg-about">How it works</button>
+    </nav>
+  </header>
+
+  <!-- Start gate: browsers only allow sound after a user gesture. -->
+  <section id="gate" class="gate" aria-labelledby="gate-title">
+    <div class="gate-inner">
+      <p class="eyebrow">NASA Space Apps · Earth Jukebox</p>
+      <h2 id="gate-title">Close your eyes.<br>Listen to the planet.</h2>
+      <p>Seven NASA Earth Information Center visualizations — ocean heat, lightning, smoke and dust, carbon dioxide, city lights, forests and currents — are analysed frame by frame and turned into music as you listen. Every note comes from the data.</p>
+      <p class="hint">Headphones recommended: left and right tell you where on Earth a sound is.</p>
+      <button id="btn-start" class="primary big">Start listening</button>
+      <p class="hint small">Works with screen readers and the keyboard. Press <kbd>?</kbd> at any time for shortcuts.</p>
+    </div>
+  </section>
+
+  <main id="main" class="layout" hidden>
+    <aside class="records" aria-labelledby="records-title">
+      <h2 id="records-title" class="panel-title">Records</h2>
+      <ul id="track-list" class="track-list"></ul>
+      <div class="upload">
+        <label for="file-input" class="upload-label">
+          <span class="upload-title">Sonify your own frame</span>
+          <span class="upload-sub">Image or short video · analysed only in your browser</span>
+        </label>
+        <input id="file-input" type="file" accept="image/*,video/*">
+      </div>
+    </aside>
+
+    <section class="player" aria-labelledby="now-title">
+      <div class="now">
+        <p class="eyebrow" id="now-sub"></p>
+        <h2 id="now-title">—</h2>
+        <p id="now-summary" class="summary"></p>
+      </div>
+
+      <div id="stage" class="stage" aria-describedby="now-summary">
+        <video id="video" muted playsinline loop preload="auto" crossorigin="anonymous" aria-hidden="true"></video>
+        <img id="still" alt="" hidden>
+        <canvas id="overlay" aria-hidden="true"></canvas>
+        <div id="explore-hint" class="explore-hint" hidden>Explore mode · move with the arrow keys, mouse or finger · <kbd>Enter</kbd> to hear the value · <kbd>Esc</kbd> to leave</div>
+        <div id="loading" class="loading" hidden>Loading visualization…</div>
+      </div>
+
+      <div class="transport" role="group" aria-label="Playback controls">
+        <button id="btn-play" class="primary" aria-keyshortcuts="Space">Play</button>
+        <button id="btn-restart" aria-label="Restart from the beginning">⟲ <span class="lbl">Restart</span></button>
+        <div class="seek">
+          <label for="seek" class="sr-only">Position in the visualization</label>
+          <input id="seek" type="range" min="0" max="100" step="0.1" value="0">
+          <output id="time-label" for="seek">–</output>
+        </div>
+        <label class="inline">Speed
+          <select id="speed">
+            <option value="0.5">0.5×</option>
+            <option value="0.75">0.75×</option>
+            <option value="1" selected>1×</option>
+          </select>
+        </label>
+        <label class="inline vol">Volume
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8">
+        </label>
+      </div>
+
+      <div class="actions" role="group" aria-label="Listening tools">
+        <button id="btn-story" aria-keyshortcuts="S"><span aria-hidden="true">◉</span> Guided story</button>
+        <button id="btn-legend" aria-keyshortcuts="L"><span aria-hidden="true">♪</span> Hear the legend</button>
+        <button id="btn-explore" aria-pressed="false" aria-keyshortcuts="E"><span aria-hidden="true">✛</span> Explore by touch</button>
+        <button id="btn-describe" aria-keyshortcuts="D"><span aria-hidden="true">≡</span> Describe now</button>
+        <button id="btn-record" aria-pressed="false" aria-keyshortcuts="R"><span aria-hidden="true">●</span> Record</button>
+        <a id="download" class="download" hidden>Download recording</a>
+      </div>
+
+      <div class="caption-wrap">
+        <p class="panel-title" id="caption-title">Live description</p>
+        <p id="caption" class="caption" aria-labelledby="caption-title">Press Play to begin.</p>
+      </div>
+
+      <dl id="readout" class="readout" aria-label="Live data readout"></dl>
+      <canvas id="scope" class="scope" aria-hidden="true"></canvas>
+    </section>
+
+    <aside class="side">
+      <section aria-labelledby="mixer-title" class="panel">
+        <h2 id="mixer-title" class="panel-title">Mixer — what each sound means</h2>
+        <ul id="mixer" class="mixer"></ul>
+      </section>
+      <section aria-labelledby="map-title" class="panel">
+        <h2 id="map-title" class="panel-title">From sight to sound</h2>
+        <table class="mapping">
+          <caption class="sr-only">How visual features map to sound for this record</caption>
+          <thead><tr><th scope="col">In the picture</th><th scope="col">What you hear</th></tr></thead>
+          <tbody id="mapping"></tbody>
+        </table>
+      </section>
+      <section aria-labelledby="src-title" class="panel">
+        <h2 id="src-title" class="panel-title">Data source</h2>
+        <p id="source" class="source"></p>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Live regions for assistive technology -->
+  <div id="live-polite" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="live-assertive" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+  <dialog id="dlg-help" aria-labelledby="help-title">
+    <h2 id="help-title">Keyboard shortcuts</h2>
+    <table class="keys">
+      <tbody>
+        <tr><th scope="row"><kbd>Space</kbd> / <kbd>K</kbd></th><td>Play or pause</td></tr>
+        <tr><th scope="row"><kbd>1</kbd>–<kbd>7</kbd></th><td>Choose a record</td></tr>
+        <tr><th scope="row"><kbd>←</kbd> <kbd>→</kbd></th><td>Jump back or forward 5 seconds</td></tr>
+        <tr><th scope="row"><kbd>S</kbd></th><td>Guided story (spoken introduction, then play)</td></tr>
+        <tr><th scope="row"><kbd>L</kbd></th><td>Hear the legend: what low and high sound like</td></tr>
+        <tr><th scope="row"><kbd>E</kbd></th><td>Explore mode: pause and move a sound probe over the map</td></tr>
+        <tr><th scope="row"><kbd>Arrows</kbd> (explore)</th><td>Move the probe; hold <kbd>Shift</kbd> for big steps</td></tr>
+        <tr><th scope="row"><kbd>Enter</kbd> (explore)</th><td>Speak the value and place under the probe</td></tr>
+        <tr><th scope="row"><kbd>D</kbd></th><td>Describe what is on screen right now</td></tr>
+        <tr><th scope="row"><kbd>N</kbd></th><td>Automatic narration on/off</td></tr>
+        <tr><th scope="row"><kbd>R</kbd></th><td>Start or stop recording the soundtrack</td></tr>
+        <tr><th scope="row"><kbd>M</kbd></th><td>Mute or unmute</td></tr>
+        <tr><th scope="row"><kbd>Esc</kbd></th><td>Leave explore mode or close a dialog</td></tr>
+      </tbody>
+    </table>
+    <form method="dialog"><button class="primary">Close</button></form>
+  </dialog>
+
+  <dialog id="dlg-settings" aria-labelledby="settings-title">
+    <h2 id="settings-title">Accessibility</h2>
+    <fieldset>
+      <legend>Descriptions</legend>
+      <label class="check"><input type="checkbox" id="opt-narrate" checked> Automatic narration while playing (every ~15 s, to screen readers and the caption)</label>
+      <label class="check"><input type="checkbox" id="opt-voice"> Read descriptions aloud with the built-in voice (for users without a screen reader)</label>
+      <label class="inline">Voice speed <input type="range" id="opt-rate" min="0.7" max="1.5" step="0.05" value="1"></label>
+    </fieldset>
+    <fieldset>
+      <legend>Display</legend>
+      <label class="check"><input type="checkbox" id="opt-contrast"> High contrast</label>
+      <label class="check"><input type="checkbox" id="opt-large"> Larger text</label>
+      <label class="check"><input type="checkbox" id="opt-motion"> Reduce motion (no scanner animation)</label>
+    </fieldset>
+    <fieldset>
+      <legend>Touch</legend>
+      <label class="check"><input type="checkbox" id="opt-haptic" checked> Vibrate on lightning and extreme values (supported phones)</label>
+    </fieldset>
+    <form method="dialog"><button class="primary">Done</button></form>
+  </dialog>
+
+  <dialog id="dlg-about" aria-labelledby="about-title" class="wide">
+    <h2 id="about-title">How Earth Jukebox works</h2>
+    <ol class="steps">
+      <li><strong>Real NASA frames.</strong> Each record is a visualization from NASA's Scientific Visualization Studio used in the Earth Information Center. The video plays in your browser and every musical step reads the frame currently on screen.</li>
+      <li><strong>Pixels back to data.</strong> We sampled each visualization's own colour bar. A pixel's colour is matched to the nearest colour on that bar, giving back the value it stands for — °C, ppm, metres. For shaded imagery we compare chroma (colour without brightness), so shadows don't fool it.</li>
+      <li><strong>Where on Earth.</strong> Most records are flat (equirectangular) maps, so each pixel has a latitude and longitude. That powers place names in descriptions and the stereo position of sounds.</li>
+      <li><strong>The scanner.</strong> Every bar, a playhead sweeps from west to east. Step 1 is the far west (the Pacific date line), step 16 the far east. Time in the bar and left–right position both mean longitude, on every record.</li>
+      <li><strong>Musical rules.</strong> Pitches are snapped to a scale chosen per record, so data never clashes. A voice limit, compressor and limiter keep busy data from becoming noise.</li>
+      <li><strong>Every sound has a meaning.</strong> The mixer lists each instrument and what it represents. Solo one to listen to a single variable.</li>
+    </ol>
+    <p>Data credits: NASA Goddard Space Flight Center Scientific Visualization Studio and the science teams named on each record. This project is not endorsed by NASA.</p>
+    <form method="dialog"><button class="primary">Close</button></form>
+  </dialog>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
