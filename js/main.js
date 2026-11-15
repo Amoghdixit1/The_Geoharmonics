@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Earth Jukebox — application wiring.
 import { AudioEngine } from "./audio/engine.js";
 import { Probe, drum } from "./audio/voices.js";
@@ -620,8 +621,9 @@ async function toggleRecord() {
     if (blob) {
       const ext = blob.type.includes("ogg") ? "ogg" : blob.type.includes("mp4") ? "m4a" : "webm";
       els.download.href = URL.createObjectURL(blob);
-      els.download.download = `earth-jukebox-${state.track.id}.${ext}`;
+      els.download.download = `earth-jukebox-${state.track.id}-ai-assisted-code.${ext}`;
       els.download.textContent = `Download “${state.track.title}” (${(blob.size / 1e6).toFixed(1)} MB)`;
+      els.download.title = "Audio synthesised live by AI-assisted code (Claude, Anthropic) from NASA data. See AI_DISCLOSURE.md.";
       els.download.hidden = false;
       announce("Recording stopped. A download link is ready after the Record button.", true);
     }
@@ -826,7 +828,7 @@ async function endDemo(restoreTrack = true) {
   stopPlayback();
   exitExplore();
   window.speechSynthesis?.cancel();
-  els.stage.querySelectorAll(".demo-sub, .demo-shade, .demo-end").forEach((n) => n.remove());
+  els.stage.querySelectorAll(".demo-sub, .demo-shade, .demo-end, .demo-watermark").forEach((n) => n.remove());
   document.body.classList.remove("demo");
   if (restoreTrack) {
     await selectTrack("sst");

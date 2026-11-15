@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Colour utilities and colormap inversion.
 // Pure functions only (no DOM) so they run in Node tests and in the browser.
 

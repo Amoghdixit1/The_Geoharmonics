@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Cache-busting for static hosting (GitHub Pages caches files for ~10 min).
 // Stamps a new version into index.html (CSS, entry script, import map, meta
 // tag) and version.json. Run before every push:  npm run bump

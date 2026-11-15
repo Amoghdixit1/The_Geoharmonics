@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Natural-language descriptions generated from analysed frames.
 // Used for the live caption, screen-reader announcements and spoken narration.
 // Everything stated here is computed from the pixels of the current frame.

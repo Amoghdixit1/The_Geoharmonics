@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Zero-dependency static server with HTTP Range support (needed for video
 // seeking) and correct MIME types for ES modules.
 //   node scripts/serve.mjs [port]

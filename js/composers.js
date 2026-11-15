@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Composers: the artistic rule-sets that turn analysed frames into music.
 //
 // Shared idea — the SCANNER. Every bar, a playhead sweeps the map from west to

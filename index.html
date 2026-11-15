@@ -1,14 +1,16 @@
 <!doctype html>
+<!-- Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Earth Jukebox</title>
   <meta name="description" content="Earth Jukebox turns NASA Earth Information Center visualizations into live, data-driven music you can explore by ear, touch or keyboard.">
+  <meta name="ai-disclosure" content="Code written with Claude (Anthropic) as an AI coding assistant, under our direction. Text drafted with the same assistant; all imagery is from NASA SVS; audio is synthesised live by code from NASA data. See AI_DISCLOSURE.md.">
   <meta name="theme-color" content="#05070d">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%230b1630' stroke='%2366d1ff' stroke-width='4'/%3E%3Cpath d='M10 36c8-10 14 6 22-4s14 6 22-4' fill='none' stroke='%23ffb347' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/app.css?v=202611151543">
-  <meta name="app-version" content="202611151543">
+  <link rel="stylesheet" href="css/app.css?v=202611151702">
+  <meta name="app-version" content="202611151702">
 </head>
 <body>
   <a class="skip" href="#main">Skip to player</a>
@@ -23,8 +25,8 @@
     </div>
     <nav class="top-actions" aria-label="Settings and help">
       <button id="btn-a11y" class="ghost" aria-haspopup="dialog" aria-controls="dlg-settings">Accessibility</button>
-      <button id="btn-help" class="ghost" aria-haspopup="dialog" aria-controls="dlg-help">Keyboard shortcuts <kbd>?</kbd></button>
-      <button id="btn-about" class="ghost" aria-haspopup="dialog" aria-controls="dlg-about">How it works</button>
+      <button id="btn-help" class="ghost" aria-haspopup="dialog" aria-controls="dlg-help"><span class="long">Keyboard shortcuts</span><span class="short">Keys</span> <kbd>?</kbd></button>
+      <button id="btn-about" class="ghost" aria-haspopup="dialog" aria-controls="dlg-about"><span class="long">How it works</span><span class="short">About</span></button>
     </nav>
   </header>
 
@@ -33,7 +35,7 @@
     <div class="gate-inner">
       <p class="eyebrow">NASA Space Apps · Earth Jukebox</p>
       <h2 id="gate-title">Close your eyes.<br>Listen to the planet.</h2>
-      <p>Seven NASA Earth Information Center visualizations — ocean heat, lightning, smoke and dust, carbon dioxide, city lights, forests and currents — are analysed frame by frame and turned into music as you listen. Every note comes from the data.</p>
+      <p>Seven NASA Earth Information Center visualizations<br>analysed frame by frame</p>
       <p class="hint">Headphones recommended: left and right tell you where on Earth a sound is.</p>
       <div class="gate-buttons">
         <button id="btn-start" class="primary big">Start listening</button>
@@ -187,24 +189,25 @@
       <li><strong>Musical rules.</strong> Pitches are snapped to a scale chosen per record, so data never clashes. A voice limit, compressor and limiter keep busy data from becoming noise.</li>
       <li><strong>Every sound has a meaning.</strong> The mixer lists each instrument and what it represents. Solo one to listen to a single variable.</li>
     </ol>
+    <p><strong>AI use.</strong> Our team chose the challenge, researched it, directed the design, tested the app and produced the demo; code written with Claude (Anthropic) as an AI coding assistant, under our direction, and text was drafted with the same assistant. All data imagery is NASA's, and every sound is synthesised live by code from NASA data — no generative-AI audio. The app icon was drawn in code by the same assistant; our GeoHarmonics logo and banner are AI-generated images. <a href="AI_DISCLOSURE.md" target="_blank" rel="noopener">Full disclosure</a>.</p>
     <p>Data credits: NASA Goddard Space Flight Center Scientific Visualization Studio and the science teams named on each record. This project is not endorsed by NASA.</p>
     <form method="dialog"><button class="primary">Close</button></form>
   </dialog>
 
   <script type="importmap" id="versioned-modules">
   { "imports": {
-    "./js/main.js": "./js/main.js?v=202611151543",
-    "./js/analysis.js": "./js/analysis.js?v=202611151543",
-    "./js/color.js": "./js/color.js?v=202611151543",
-    "./js/geo.js": "./js/geo.js?v=202611151543",
-    "./js/music.js": "./js/music.js?v=202611151543",
-    "./js/composers.js": "./js/composers.js?v=202611151543",
-    "./js/tracks.js": "./js/tracks.js?v=202611151543",
-    "./js/describe.js": "./js/describe.js?v=202611151543",
-    "./js/audio/engine.js": "./js/audio/engine.js?v=202611151543",
-    "./js/audio/voices.js": "./js/audio/voices.js?v=202611151543"
+    "./js/main.js": "./js/main.js?v=202611151702",
+    "./js/analysis.js": "./js/analysis.js?v=202611151702",
+    "./js/color.js": "./js/color.js?v=202611151702",
+    "./js/geo.js": "./js/geo.js?v=202611151702",
+    "./js/music.js": "./js/music.js?v=202611151702",
+    "./js/composers.js": "./js/composers.js?v=202611151702",
+    "./js/tracks.js": "./js/tracks.js?v=202611151702",
+    "./js/describe.js": "./js/describe.js?v=202611151702",
+    "./js/audio/engine.js": "./js/audio/engine.js?v=202611151702",
+    "./js/audio/voices.js": "./js/audio/voices.js?v=202611151702"
   } }
   </script>
-  <script type="module" src="js/main.js?v=202611151543"></script>
+  <script type="module" src="js/main.js?v=202611151702"></script>
 </body>
 </html>

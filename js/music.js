@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Musical rules that keep data-driven audio pleasant: every pitch is snapped
 // to a scale, so any data value lands on a note that fits the harmony.
 

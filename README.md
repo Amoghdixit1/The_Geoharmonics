@@ -98,8 +98,12 @@ js/describe.js   the same numbers → sentences for captions and screen readers
 - Below ≈425 ppm the CO₂ visualization is transparent, and below ≈5 °C Perpetual Ocean's navy matches the sea floor, so those ranges are not sonified. The interface says so.
 - Place names come from approximate bounding boxes and are phrased as "near".
 
+## AI use
+
+Our team chose and researched the challenge, directed the concept and design, tested the app (and found the bugs that shaped it), produced the demo video, and runs the repository and hosting. **Code written with Claude (Anthropic) as an AI coding assistant, under our direction**; documentation was drafted with the same assistant. All imagery is NASA's, and every sound is synthesised live by code from NASA data; no AI audio, video or voice models were used. Our GeoHarmonics logo and banner are AI-generated images and are watermarked as such. Full details and labelling: [AI_DISCLOSURE.md](AI_DISCLOSURE.md).
+
 ## Credits
 
 Visualizations: **NASA Goddard Space Flight Center Scientific Visualization Studio**, with the science teams credited on each record page (ECCO2/ECCO-2, ISS LIS, NASA GMAO GEOS, DYAMOND GEOS-MITgcm, Black Marble / Suomi NPP VIIRS, GEDI). Earth Jukebox is a Space Apps project and is not endorsed by NASA. No NASA logos are used.
 
-All synthesis, analysis and interface code in this repository is original (MIT licence). No third-party runtime libraries are used.
+All synthesis, analysis and interface code in this repository was created for this project with AI assistance (MIT licence). No third-party runtime libraries are used.

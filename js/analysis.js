@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Frame analysers: turn the pixels of one EIC/SVS video frame into data.
 //
 // Every analyser receives an ImageData-like object {data, width, height}

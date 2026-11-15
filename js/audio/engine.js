@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Web Audio engine: master bus, reverb, limiter, mixer layers, look-ahead
 // clock, voice budget and recording. Everything is synthesised live — no
 // samples — so the sound is generated in real time from the analysed frames.

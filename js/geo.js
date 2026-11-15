@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Geography helpers: equirectangular pixel <-> lat/lon and coarse place names.
 // Region boxes are deliberately approximate; descriptions say "near" for that reason.
 

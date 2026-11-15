@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // The "records" in the jukebox. Facts here come from the NASA SVS pages cited
 // in `source`; dates are mapped linearly onto video time unless noted.
 

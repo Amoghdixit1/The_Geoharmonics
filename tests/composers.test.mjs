@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Runs every composer against real analysed frames using a minimal fake Web
 // Audio graph, to catch runtime errors and check that sound is produced.
 import { test } from "node:test";

@@ -13,5 +13,6 @@
   "engines": {
     "node": ">=18"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "aiDisclosure": "Code written with Claude (Anthropic) as an AI coding assistant, under our direction. Tests and documentation drafted with the same assistant. Imagery: NASA SVS (unaltered, re-encoded). Audio: synthesised live by code; no generative-AI audio. Logo/banner: AI-generated images (watermarked copies). See AI_DISCLOSURE.md."
 }

@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Validates the pixel -> data pipeline on real NASA SVS frames (fixtures are
 // produced by scripts/build_media.py at the same resolution the app analyses).
 import { test } from "node:test";

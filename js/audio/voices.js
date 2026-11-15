@@ -1,3 +1,4 @@
+// Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 // Synth voices built from raw Web Audio nodes.
 // One-shot voices (pluck, bell, drum, grain) respect the engine's voice budget;
 // sustained voices (Pad, NoiseBed, Probe) are long-lived and parameter-driven.

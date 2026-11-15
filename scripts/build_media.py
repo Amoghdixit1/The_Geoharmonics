@@ -1,3 +1,4 @@
+# Earth Jukebox — Code written with Claude (Anthropic) as an AI coding assistant, under our direction. See AI_DISCLOSURE.md.
 """
 Earth Jukebox media pipeline.
 
@@ -174,6 +175,8 @@ def build_colormaps() -> None:
     img = np.asarray(Image.open(io.BytesIO(fetch(AEROSOL_SWATCHES["url"]))).convert("RGB")).astype(int)
     maps["aerosolTypes"] = {k: [int(c) for c in img[y, x]] for k, (x, y) in AEROSOL_SWATCHES["points"].items()}
     print(f"[colormap] aerosol swatches: {maps['aerosolTypes']}")
+    maps = {"_provenance": "Colour-bar samples extracted from NASA SVS legends by scripts/build_media.py "
+                           "(AI-assisted code: Claude, Anthropic). See AI_DISCLOSURE.md.", **maps}
     (MEDIA / "colormaps.json").write_text(json.dumps(maps, indent=1))
 
 

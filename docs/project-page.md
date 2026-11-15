@@ -12,7 +12,7 @@ Earth Jukebox turns NASA Earth Information Center visualizations into live music
 
 ## Links
 - Live demo: https://amoghdixit1.github.io/nasa-final/
-- Demo video (30 s): [YouTube link]
+- Demo video (30 s): [YouTube link] (file: earth-jukebox-demo-30s-ai-labelled.mp4)
 - Code: https://github.com/Amoghdixit1/nasa-final
 
 ## Project details
@@ -65,7 +65,21 @@ EIC visualizations are currently sight-only. Earth Jukebox gives blind and low-v
 - Very low CO₂ (below about 425 ppm) and very cold Perpetual Ocean water (below about 5 °C) are not sonified, because the visualizations make them indistinguishable from the background.
 
 ## Use of Artificial Intelligence
-We used Claude, an AI coding assistant from Anthropic, to help write and debug the application code, the media pipeline and the tests, and to help draft documentation. Our team chose the datasets and the sonification design, reviewed and tested the output, and made the final decisions. No AI-generated imagery or audio is used: every sound is synthesised live from NASA data by our code.
+**Our team's work:**
+- We chose the Earth Jukebox challenge and researched it: the brief, the NASA EIC/SVS resources, and the judging and submission rules.
+- We brainstormed and directed the concept: an accessible, data-driven jukebox of EIC visualizations, its features, and the look of the homepage and demo.
+- We ran and tested the app on our own devices and found real problems that were then fixed: the demo montage switching before records were heard, stale versions caused by GitHub Pages caching, and an over-length demo video.
+- We recorded and produced the demo video.
+- We managed the repository and hosting (Git, GitHub, GitHub Pages).
+
+**AI assistance:** Code written with Claude (Anthropic) as an AI coding assistant, under our direction. Claude also helped debug the code, helped research the NASA datasets and their colour bars, and drafted documentation and narration text, which we reviewed.
+
+**Labelling:**
+- Source files carry a disclosure header, and the repository includes AI_DISCLOSURE.md.
+
+**AI-generated images:** our GeoHarmonics logo and banner are AI-generated; the copies we submit carry a visible "AI-generated image" watermark.
+
+**Not AI-generated:** all data imagery is from NASA's Scientific Visualization Studio (re-encoded, not altered), and no AI video, voice or music models were used. Every sound is synthesised live by code from NASA data.
 
 ## NASA data used
 - Global Sea Surface Currents and Temperature — https://svs.gsfc.nasa.gov/3912
@@ -82,3 +96,13 @@ None. All imagery is from NASA's Scientific Visualization Studio.
 
 ## Tags
 #sonification #accessibility #EarthInformationCenter #climate #WebAudio #blind #lowvision #oceans #lightning #CO2
+
+---
+
+## YouTube description (paste when uploading the demo video)
+Earth Jukebox: hear NASA Earth Information Center visualizations as live, data-driven music. Built for NASA Space Apps 2026.
+
+AI disclosure: Code written with Claude (Anthropic) as an AI coding assistant, under our direction. We researched the challenge, directed the design, tested the app and produced this video. Subtitles were drafted with the same assistant. The soundtrack is synthesised live by that code from NASA data; no generative-AI audio. Data imagery: NASA Goddard Scientific Visualization Studio. The GeoHarmonics logo/thumbnail is an AI-generated image.
+
+Live demo: https://amoghdixit1.github.io/nasa-final/
+Code: https://github.com/Amoghdixit1/nasa-final
