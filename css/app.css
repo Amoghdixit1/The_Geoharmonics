@@ -236,3 +236,9 @@ button.secondary { background: transparent; border: 2px solid var(--accent); col
 button.secondary:hover { background: rgba(255, 179, 71, 0.12); }
 #btn-watch[hidden], #watch-hint[hidden] { display: none; }
 .demo-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 22px; }
+
+/* Homepage GitHub link */
+.repo-link { margin-top: 18px; }
+.repo-link a { display: inline-flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none;
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; min-height: 44px; font-weight: 600; }
+.repo-link a:hover { border-color: var(--focus); color: var(--focus); }
